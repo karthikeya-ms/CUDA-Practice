@@ -33,7 +33,7 @@ int main() {
     //Initialize input vectors
     for(int i =0; i<n; i++){
 
-        h_a[i] = i*1.0f;
+        h_a[i] = i*1.0f; //single precision floating point numbers as GPUs are optimized for those - requires less memory and computation
         h_b[i] = i*2.0f;
     }
 
