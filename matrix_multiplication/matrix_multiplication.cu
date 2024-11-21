@@ -23,7 +23,7 @@ __global__ void matrix_multiplication(const float *d_a, const float *d_b, float 
 
 int main(){
 
-    const int M = 10, K = 20, N = 15;
+    const int M = 100, K = 200, N = 150;
     size_t abytes = M*K*sizeof(float), bbytes = K*N*sizeof(float), cbytes = M*N*sizeof(float);
 
     std::vector<float> h_a(M * K);
@@ -49,7 +49,7 @@ int main(){
     cudaMemcpy(d_a, h_a.data(), abytes, cudaMemcpyHostToDevice);
     cudaMemcpy(d_b, h_b.data(), bbytes, cudaMemcpyHostToDevice);
 
-    dim3 blockDim(10,10);
+    dim3 blockDim(30,30);
     dim3 gridDim((N+blockDim.x - 1)/blockDim.x, (M+blockDim.y - 1)/blockDim.y);
 
     matrix_multiplication<<<gridDim, blockDim>>>(d_a, d_b, d_c, M, K, N);
@@ -68,6 +68,7 @@ int main(){
     cudaFree(d_b);
     cudaFree(d_c);
 
+    return 0;
     
 
 }
