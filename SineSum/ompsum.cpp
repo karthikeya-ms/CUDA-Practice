@@ -1,3 +1,9 @@
+// Trapezoidal rule for integration
+// sin(x) = x - x^3/3! + x^5/5! - x^7/7! + ...
+// sin(x) dx = (sin(0) + sin(pi))/2 * step_size + sum(sin(x_i)) * step_size, i = 1, 2, ..., steps-1
+// where x_i = i * step_size, step_size = pi / (steps-1)
+
+
 #include <iostream>
 #include <chrono>
 #include <cmath>
