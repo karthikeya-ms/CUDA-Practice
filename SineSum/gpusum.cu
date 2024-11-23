@@ -19,9 +19,11 @@ __host__ __device__ inline float sinsum(float x, int terms){
 
 __global__ void gpu_sin(float *sums, int steps, int terms, float step_size){
     int step = blockIdx.x*blockDim.x + threadIdx.x;
-    if (step < steps){
+    //implementing thread linear addressing
+    while (step < steps){
         float x = step * step_size;
         sums[step] = sinsum(x, terms);
+        step += blockDim.x * gridDim.x;
     }
 }
 
@@ -41,6 +43,8 @@ int main(int argc, char* argv[]){
 
     auto start = chrono::high_resolution_clock::now();
     gpu_sin<<<blocks, threads>>>(dptr, steps, terms, step_size);
+
+
     double gpu_sum = thrust::reduce(dsums.begin(), dsums.end());
     auto end = chrono::high_resolution_clock::now();
     auto duration = chrono::duration_cast<chrono::microseconds>(end - start).count();
