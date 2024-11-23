@@ -8,7 +8,6 @@ float sinsum(float x, int terms) {
     float term = x;
     float sum = term;
     float x2 = x * x;
-    #pragma omp parallel for reduction(+:sum)
     for (int n = 1; n < terms; n++) {
         term *= -x2 / (float)((2*n)*(2*n+1));
         sum += term;
@@ -35,6 +34,7 @@ int main(int argc, char* argv[]) {
     auto duration = chrono::duration_cast<chrono::microseconds>(end - start).count();
     cout << "CPU Time: " << duration << " microseconds" << endl;
     omp_sum -= (sinsum(0, terms) + sinsum(pi, terms)) * 0.5;
+    omp_sum *= step_size;
     cout << "CPU Sum: " << omp_sum << endl;
     return 0;
 }
